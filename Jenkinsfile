@@ -5,8 +5,8 @@ pipeline {
         stage('Run web_') {
             steps {
                 script{
-                // Get some code from a GitHub repository
-                echo $(env.W0RKSPACE)
+                    // Get some code from a GitHub repository
+                    echo "workspace directory is ${workspace}"
                 }
 
             }
