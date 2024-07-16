@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script{
                 // Get some code from a GitHub repository
-                sh echo $W0RKSPACE
+                echo $(env.W0RKSPACE)
                 }
 
             }
