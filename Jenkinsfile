@@ -5,7 +5,7 @@ pipeline {
         stage('Run web_') {
             steps {
                 // Get some code from a GitHub repository
-                sh echo $W0RKSPACE
+                echo $W0RKSPACE
 
             }
 
