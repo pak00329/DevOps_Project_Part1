@@ -1,3 +1,3 @@
 import db_connector
-db_connector.createRecords(31, "Tilbert")
+db_connector.createRecords(25, "Troy")
 
