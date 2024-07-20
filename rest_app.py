@@ -1,11 +1,19 @@
 
 from flask import Flask, request, jsonify
 import db_connector
+import os
+import signal
 
 
 app = Flask(__name__)
 
 # accessed via <HOST>:<PORT>/get_random
+
+@app.route('/stop_server')
+def stop_server():
+    os.kill(os.getpid(), signal.CTRL_C_EVENT)
+    return 'Server_stopped'
+
 
 
 @app.route("/user/<user_id>", methods=["POST", "GET", "PUT", "DELETE"])
