@@ -8,7 +8,7 @@ pipeline {
                     // Get some code from a GitHub repository
                     //echo "workspace directory is ${workspace}"
                     //sh 'python3 ${WORKSPACE}/build_test_file.py'
-                    sh 'nohup python3 rest_app.py'
+                    sh 'nohup python3 rest_app.py&'
                 }
             }
         }
@@ -19,7 +19,7 @@ pipeline {
                     // Get some code from a GitHub repository
                     //echo "workspace directory is ${workspace}"
                     //sh 'python3 ${WORKSPACE}/build_test_file.py'
-                    sh 'nohup python3 web_app.py'
+                    sh 'nohup python3 web_app.py&'
                 }
             }
         }
