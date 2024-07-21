@@ -9,6 +9,14 @@ app = Flask(__name__)
 
 # accessed via <HOST>:<PORT>/get_random
 
+# Error handler for 404 - Page Not Found
+@app.errorhandler(404)
+def page_not_found(error):
+    return "Sorry, the page you are looking for does not exist.", 404
+
+if __name__ == '__main__':
+    app.run()
+
 @app.route('/stop_server')
 def stop_server():
     os.kill(os.getpid(), signal.CTRL_C_EVENT)
