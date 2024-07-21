@@ -2,6 +2,7 @@ pipeline {
     agent any
     triggers {
         pollSCM('H/30 * * * *') // Poll SCM every 30 minutes
+    }
     stages {
         stage('run backend server') {
             steps {
