@@ -66,6 +66,6 @@ def addUser(user_id): # This function is to create the record
     return jsonify(status="ok", user_added=[{"user_id": user_id,"userName":userName}]), 200
 
 
-app.run(host='127.0.0.1', debug=True, port=5000)
+app.run(host='127.0.0.1', debug=True, port=5001)
 
 
