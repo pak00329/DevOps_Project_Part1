@@ -26,17 +26,6 @@ pipeline {
             }
         }
         
-        stage('run frontend_testing') {
-            steps {
-                script{
-                    // Get some code from a GitHub repository
-                    //echo "workspace directory is ${workspace}"
-                    //sh 'python3 ${WORKSPACE}/build_test_file.py'
-                    sh 'python3 frontend_testing.py'
-                }
-            }
-        }
-        
         stage('run backend_testing') {
             steps {
                 script{
@@ -44,6 +33,17 @@ pipeline {
                     //echo "workspace directory is ${workspace}"
                     //sh 'python3 ${WORKSPACE}/build_test_file.py'
                     sh 'python3 backend_testing.py'
+                }
+            }
+        }
+        
+        stage('run frontend_testing') {
+            steps {
+                script{
+                    // Get some code from a GitHub repository
+                    //echo "workspace directory is ${workspace}"
+                    //sh 'python3 ${WORKSPACE}/build_test_file.py'
+                    sh 'python3 frontend_testing.py'
                 }
             }
         }
