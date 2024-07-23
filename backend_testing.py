@@ -9,7 +9,7 @@ new_user_data = {
 
 # Function to post user data to the REST API
 def post_user_data():
-    url = 'http://api.example.com/users'  
+    url = 'http://127.0.0.1:5000/user/29, json={"userName":'Kelcie'}  
     response = requests.post(url, json=new_user_data)
     
     if response.status_code != 201:  # Expected status code for created user 201 
@@ -19,7 +19,7 @@ def post_user_data():
 
 # Function to get user data from the REST API
 def get_user_data(user_id):
-    url = f'http://api.example.com/users/{user_id}'  
+    url = f'http://127.0.0.1:5000/user/29'  
     response = requests.get(url)
     
     if response.status_code != 200:
