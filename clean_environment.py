@@ -1,3 +1,4 @@
+import requests
 try:
     response = requests.get('http://127.0.0.1:5000/stop_server')
     response.raise_for_status()  # Raise an exception for 4xx/5xx status codes
