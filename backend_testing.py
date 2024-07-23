@@ -30,13 +30,13 @@ def get_user_data(user_id):
 
 # Function to check if the user data is stored in the database
 def check_db(user_id):  # Change to use user_id
-    # Replace these database credentials and settings as needed
+    # database credentials and settings
     conn = pymysql.connect(
-        host='127.0.0.1',      # Database host
+        host='127.0.0.1',                    # Database host
         user='your_database_user',           # Database user
         password='your_database_password',   # Database password
         database='your_database_name',       # Database name
-        port=3306            # Database port
+        port=3306                            # Database port
     )
     
     cursor = conn.cursor()
