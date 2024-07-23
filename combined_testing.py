@@ -6,11 +6,11 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 # Define user data
-new_user_data = {'userID': 26, 'userName': 'Lebron James'}
+new_user_data = {'userID': 28, 'userName': 'Lebron James'}
 
 # Function to post user data to the REST API
 def post_user_data():
-    url = 'http://api.example.com/users'  # Replace with your API URL
+    url = 'http://127.0.0.1:5000/user/28'  # Replace with your API URL
     response = requests.post(url, json=new_user_data)
     if response.status_code != 201:  # Assuming 201 Created is the expected status for POST
         raise Exception("test failed: Unable to create user")
@@ -18,7 +18,7 @@ def post_user_data():
 
 # Function to get user data from the REST API
 def get_user_data(user_id):
-    url = f'http://api.example.com/users/{user_id}'  
+    url = f'http://127.0.0.1:5000/user/28'  
     response = requests.get(url)
     if response.status_code != 200:
         raise Exception("test failed: GET request did not return 200")
@@ -48,7 +48,7 @@ def check_db(user_id):
 def selenium_test(user_id):
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     try:
-        driver.get(f'http://web.example.com/user/{user_id}')  
+        driver.get(f'http://127.0.0.1:5000/user/28')  
         user_name_element = driver.find_element(By.CSS_SELECTOR, ".username")  # element locator for the username
 
         if user_name_element.text != new_user_data['userName']:  # Change to userName
