@@ -13,7 +13,7 @@ def post_user_data():
     url = 'http://api.example.com/users'  # Replace with your API URL
     response = requests.post(url, json=new_user_data)
     if response.status_code != 201:  # Assuming 201 Created is the expected status for POST
-        raise Exception("test failed")
+        raise Exception("test failed: Unable to create user")
     return response.json()
 
 # Function to get user data from the REST API
@@ -21,26 +21,27 @@ def get_user_data(user_id):
     url = f'http://api.example.com/users/{user_id}'  
     response = requests.get(url)
     if response.status_code != 200:
-        raise Exception("test failed")
+        raise Exception("test failed: GET request did not return 200")
     return response.json()
 
 # Function to check if data is stored in the database
-def check_db(user_email):
+def check_db(user_id):
     schema_name = "mydb"
     host = "127.0.0.1"
     port = 3306
     user = "user"
     password = "password"
+
+    # Establish the database connection
     conn = pymysql.connect(host=host, port=port, user=user, passwd=password, db=schema_name)
-    return conn
     
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+    cursor.execute("SELECT * FROM users WHERE userID = %s", (user_id,))  # Use userID for the query
     user_data = cursor.fetchone()
     conn.close()
 
     if user_data is None:
-        raise Exception("test failed")
+        raise Exception("test failed: User data not found in the database")
     return user_data
 
 # Function to perform Selenium Webdriver tests
@@ -50,8 +51,8 @@ def selenium_test(user_id):
         driver.get(f'http://web.example.com/user/{user_id}')  
         user_name_element = driver.find_element(By.CSS_SELECTOR, ".username")  # element locator for the username
 
-        if user_name_element.text != new_user_data['name']:
-            raise Exception("test failed")
+        if user_name_element.text != new_user_data['userName']:  # Change to userName
+            raise Exception("test failed: User name does not match")
     finally:
         driver.quit()
 
@@ -59,17 +60,17 @@ def selenium_test(user_id):
 if __name__ == '__main__':
     # Step 1: Post user data
     posted_data = post_user_data()
-    user_id = posted_data.get('id')  # Assuming the posted data returns the ID
+    user_id = posted_data.get('userID')  # Assuming the posted data returns the userID
 
     # Step 2: Verify posted data
     retrieved_data = get_user_data(user_id)
     if retrieved_data != posted_data:
-        raise Exception("test failed")
+        raise Exception("test failed: Retrieved data does not match posted data")
 
     # Step 3: Check if data is stored in the database
-    check_db(new_user_data['id'])
+    check_db(new_user_data['userID'])  # Change to userID
 
-    # Step 4: Selenium test for web interface
+    # Step 4: Selenium test for the web interface
     selenium_test(user_id)
 
     print("All tests passed successfully!")
