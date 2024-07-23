@@ -10,7 +10,7 @@ new_user_data = {'userID': 28, 'userName': 'Lebron James'}
 
 # Function to post user data to the REST API
 def post_user_data():
-    url = 'http://127.0.0.1:5000/user/28'  # Replace with your API URL
+    url = 'http://127.0.0.1:5000/user/28'  
     response = requests.post(url, json=new_user_data)
     if response.status_code != 201:  # Assuming 201 Created is the expected status for POST
         raise Exception("test failed: Unable to create user")
