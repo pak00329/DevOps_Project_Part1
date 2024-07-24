@@ -12,7 +12,7 @@ def page_not_found(error):
 def handle_exception(e):
     return make_response(jsonify(error=str(e)), 500)
 
-@app.route("/user/<user_id>", methods=["POST", "GET", "PUT", "DELETE"])
+@app.route("/users/<user_id>", methods=["POST", "GET", "PUT", "DELETE"])
 def httpMethod(user_id):
     if request.method == "POST":
         return addUser(user_id)
