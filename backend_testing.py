@@ -12,8 +12,8 @@ new_user_data = {
 def post_user_data():
     url = 'http://127.0.0.1:5000/user'  # Ensure this is the correct endpoint for posting
     json_data = {
-        "user_id": new_user_data[27],  # Include id in the data being sent
-        "user_name": new_user_data['Wyclif']
+        "user_id": new_user_data['user_id'],  # Include id in the data being sent
+        "user_name": new_user_data['user_name']
     }
     response = requests.post(url, json=json_data)  # Use POST method for creating user
 
