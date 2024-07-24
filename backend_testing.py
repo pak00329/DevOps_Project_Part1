@@ -10,7 +10,7 @@ new_user_data = {
 
 # Function to post user data to the REST API
 def post_user_data():
-    url = 'http://127.0.0.1:5000/users/'  # Ensure this is the correct endpoint for posting
+    url = 'http://127.0.0.1:5000/users/27'  # Ensure this is the correct endpoint for posting
     json_data = {
         "user_id": new_user_data['user_id'],  # Include id in the data being sent
         "user_name": new_user_data['user_name']
