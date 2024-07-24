@@ -1,89 +1,97 @@
-#On this file, we will set up four functions the DB connector will deal with this. Create, Read, Update, Delete
-# Establishing a connection to DB
 import pymysql
+import os
 
-# Function for always connecting to the database
+# Function to connect to the database with error handling
 def dataBaseConnector():
     schema_name = "mydb"
-
     host = "127.0.0.1"
     port = 3306
-    user = "user"
-    password = "password"
+    user = os.getenv("DB_USER", "default_user")  # Using environment variables or a secure way to configure
+    password = os.getenv("DB_PASSWORD", "default_password")
 
-    conn = pymysql.connect(host=host, port=port, user=user, passwd=password, db=schema_name)
-    return conn
-
+    try:
+        conn = pymysql.connect(host=host, port=port, user=user, passwd=password, db=schema_name)
+        return conn
+    except pymysql.MySQLError as e:
+        print(f"Error connecting to the database: {e}")
+        return None
 
 def createRecords(userID, userName):
     connection = dataBaseConnector()
+    if connection is None:
+        return {"Success": False, "Message": "Database connection failed"}
+
     cursor = connection.cursor()
+    query = "INSERT INTO users (id, name) VALUES (%s, %s)"
 
-    #  using the prepared statement (%s for the values), then create data/values in a table
-    query = f"INSERT into mydb.users (id, name) VALUES (%s, %s)"
-    cursor.execute(query, (userID, userName))
+    try:
+        cursor.execute(query, (userID, userName))
+        connection.commit()
+    except pymysql.MySQLError as e:
+        return {"Success": False, "Message": str(e)}
+    finally:
+        cursor.close()
+        connection.close()
 
-    # Save into the Database
-    connection.commit()
-    cursor.close()
-    connection.close()
-    return "Success"
+    return {"Success": True}
 
-
-# Read Records from The Database
 def readRecord(userID):
     connection = dataBaseConnector()
+    if connection is None:
+        return {"Success": False, "Message": "Database connection failed"}
+
     cursor = connection.cursor()
-    cursor.execute(f"SELECT * FROM users WHERE id = {userID};")
+    cursor.execute("SELECT * FROM users WHERE id = %s", (userID,))
     result = cursor.fetchone()
     cursor.close()
     connection.close()
+
     if result:
-        message = {"Success": True, "user_id": result[0], "userName": result[1]}
+        return {"Success": True, "user_id": result[0], "userName": result[1]}
     else:
-        message = {"Success": False, "Message": "ID Does not exist"}
+        return {"Success": False, "Message": "ID Does not exist"}
 
-    return message
-
-
-# Update Records In A Database
 def updateRecords(userID, userName):
     connection = dataBaseConnector()
+    if connection is None:
+        return {"Success": False, "Message": "Database connection failed"}
+
     cursor = connection.cursor()
-    query = f"UPDATE users SET name = %s WHERE id = %s"
-    result = cursor.execute(query, (userName, userID))
+    query = "UPDATE users SET name = %s WHERE id = %s"
+    cursor.execute(query, (userName, userID))
     connection.commit()
+
+    success = cursor.rowcount > 0  # This will check if any rows were affected
     cursor.close()
     connection.close()
-    if result:
-         message = {"Success": True, "user_id": userID, "userName": userName}
+
+    if success:
+         return {"Success": True, "user_id": userID, "userName": userName}
     else:
-         message = {"Success": False, "Message": "ID Does not exist"}
-    return message
+         return {"Success": False, "Message": "ID Does not exist"}
 
-
-# Delete Records In A Table
-def deleteRecords (userID):
+def deleteRecords(userID):
     connection = dataBaseConnector()
+    if connection is None:
+        return {"Success": False, "Message": "Database connection failed"}
+
     cursor = connection.cursor()
-    query = f"DELETE FROM users WHERE id = %s"
-    result = cursor.execute(query, (userID))
+    query = "DELETE FROM users WHERE id = %s"
+    cursor.execute(query, (userID,))
     connection.commit()
+
+    success = cursor.rowcount > 0  # This will check if any rows were affected
     cursor.close()
     connection.close()
-    if result:
-         message = {"Success": True, "user_id": userID, "userName": "User Deleted"}
+
+    if success:
+        return {"Success": True, "user_id": userID, "userName": "User Deleted"}
     else:
-         message = {"Success": False, "Message": "ID Does not exist"}
-    return message
+        return {"Success": False, "Message": "ID Does not exist"}
 
-
-#print(readRecord(userID=2))
+# Example test calls (uncomment for testing)
+# print(readRecord(userID=2))
 # print(createRecords(13, "Kwame"))
-print(updateRecords(userID=13, userName="Kwame_Bruce"))
-
-
-# print(deleteRecords(userID = 1))
-
+# print(updateRecords(userID=13, userName="Kwame_Bruce"))
+# print(deleteRecords(userID=1))
 # print(readRecord(3))
-
