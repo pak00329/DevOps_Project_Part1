@@ -1,0 +1,13 @@
+db_connector file
+I have renamed the queries to access columns "user_id" and "user_name" as these are the columns that work in my database.
+
+retrieveUser()
+Line 30 is trying to access ["user_name"] but the return from the function is ["userName"]
+
+deleteUser()
+Line 43 is trying to access ["user_name"] but the return from the function is ["userName"]
+
+updateUser()
+Line 37 is trying to access ["user_name"] but the return from the function is ["userName"]
+
+marktest.py will run all four rest methods successfully. You can amend your backend test file to use this syntax.
